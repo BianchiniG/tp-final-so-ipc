@@ -1,0 +1,19 @@
+<Colas>:
+    BoxLayout:
+        orientation: 'vertical'
+        size: root.size
+        GridLayout:
+            id: agregable
+            cols: 3
+            
+            # Label:
+            #     text: "hola"
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: (1, .2)
+            Button:
+                text: "Agregar otro"
+                on_press: app.agregar_otro()
+            Button:
+                text: "Quitar otro"
+                on_press: app.eliminar_uno()

@@ -1,0 +1,97 @@
+<h1 id="mini-guía-para-la-supervivencia-en-python">Mini-guía para la supervivencia en Python</h1>
+<h2 id="editor">Editor</h2>
+<p>Como Python no utiliza llaves, sino indentación o sangría es importante configurar el editor para usar espacios en vez de tabuladores. En <a href="http://atom.io">Atom</a> desde la configuración se debe utilizar:</p>
+<p><img src="imgs/soft_tabs.png" alt="Soft Tabs" /> <img src="imgs/tab_type.png" alt="Tab Type" /></p>
+<h2 id="scripting">Scripting</h2>
+<p>Python no se compila. El prgorama python recibe archivos de texto. Si un archivo con permisos de ejecución (ej: <code>chmod 755 main.py</code>) tiene como primer línea <code>#!/usr/bin/env python</code> o <code>#!/usr/bin/python</code> no hace falta hacer <code>python main.py</code> sino simplemente <code>./main.py</code>.</p>
+<h2 id="función-main">Función main</h2>
+<p>No hay main. Se puede emular con la estructura:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">&quot;__main__&quot;</span>:
+  <span class="bu">print</span>(<span class="st">&quot;Hola mundo&quot;</span>)</code></pre></div>
+<h2 id="variables">Variables</h2>
+<p>Las variables no se les da tipo y son automáticas, con solo definirlas es suficiente. Por ejemplo en C:</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">char</span> cadena[] = <span class="st">&quot;Cadena&quot;</span>;
+<span class="dt">int</span> x = <span class="dv">5</span>;
+<span class="dt">int</span> *puntero = NULL;</code></pre></div>
+<p>Se convierte a:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">cadena <span class="op">=</span> <span class="st">&quot;cadena&quot;</span>
+x <span class="op">=</span> <span class="dv">5</span>
+puntero <span class="op">=</span> <span class="va">None</span> <span class="co"># No tiene sentido en Python</span></code></pre></div>
+<h2 id="cadenas">Cadenas</h2>
+<p>Las cadenas pueden usar las <code>&quot;comillas dobles&quot;</code> como <code>'las simples'</code>. Si se usan triples se pueden extender por varias líneas.</p>
+<p>Las cadenas se pueden componer de manera similar a <code>sprintf</code>:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">nombre <span class="op">=</span> <span class="st">&#39;Pepe&#39;</span>
+apellido <span class="op">=</span> <span class="st">&#39;Grillo&#39;</span>
+edad <span class="op">=</span> <span class="dv">15</span>
+
+frase <span class="op">=</span> <span class="st">&#39;Soy </span><span class="sc">%s</span><span class="st"> </span><span class="sc">%s</span><span class="st"> y tengo </span><span class="sc">%d</span><span class="st"> años&#39;</span> <span class="op">%</span> (nombre, apellido, edad)</code></pre></div>
+<h2 id="arreglos-y-mapas">Arreglos y Mapas</h2>
+<p>Los arreglos se definen como <code>arreglo = []</code> y son de tamaño dinámico.</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">arreglo.append(<span class="dv">1</span>)
+arreglo.append(<span class="st">&quot;dos&quot;</span>)
+<span class="bu">print</span>(<span class="bu">len</span>(arreglo))
+<span class="bu">print</span> (arreglo[<span class="dv">0</span>], arreglo[<span class="dv">1</span>])</code></pre></div>
+<p>Los mapas, o asociaciones clave-valor, se llaman diccionario en Python:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">a <span class="op">=</span> {} <span class="co"># es lo mismo que a = dict()</span>
+a[<span class="st">&#39;nomnbre&#39;</span>] <span class="op">=</span> <span class="st">&#39;Pepe Grillo&#39;</span>
+a[<span class="st">&#39;edad&#39;</span>] <span class="op">=</span> <span class="dv">18</span>
+a[<span class="st">&#39;resiste_pisadas&#39;</span>] <span class="op">=</span> <span class="va">False</span>
+<span class="co"># Pero también podemos usar claves enteras</span>
+a[<span class="dv">1</span>] <span class="op">=</span> <span class="st">&quot;Arreglo&quot;</span>
+a[<span class="dv">2</span>] <span class="op">=</span> <span class="st">&quot;Disperso&quot;</span></code></pre></div>
+<h2 id="estructuras-de-control">Estructuras de control</h2>
+<h3 id="bloques">Bloques</h3>
+<p><em>En vez de utilizar las típicas llaves {}</em> los bloques empiezan con <code>:</code> y se delimitan por indentación.</p>
+<h2 id="if">if</h2>
+<p>Supongamos el siguiente código en C:</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">int</span> a = <span class="dv">1</span>, b;
+<span class="kw">if</span> (a &gt; <span class="dv">1</span>) {
+  printf(<span class="st">&quot;a es mayor que 1&quot;</span>);
+  b = a;
+}</code></pre></div>
+<p>se convierte a:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">a <span class="op">=</span> <span class="dv">1</span>
+b <span class="op">=</span> <span class="va">None</span>
+<span class="cf">if</span> a <span class="op">&gt;</span> <span class="dv">1</span>:
+  <span class="bu">print</span>(<span class="st">&quot;a es mayor que 1&quot;</span>)
+  b <span class="op">=</span> a</code></pre></div>
+<h2 id="for">for</h2>
+<p>El for al igual que en bash, recorre colecciones.</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">lista <span class="op">=</span> [<span class="st">&#39;lista&#39;</span>, <span class="st">&#39;de&#39;</span>, <span class="st">&#39;cosas&#39;</span>]
+<span class="cf">for</span> elemento <span class="op">in</span> lista:
+  <span class="bu">print</span>(<span class="st">&quot;elemento = </span><span class="sc">%s</span><span class="st">&quot;</span> <span class="op">%</span> elemento)</code></pre></div>
+<p>Para realizar un for numérico:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="cf">for</span> i <span class="op">in</span> <span class="bu">range</span>(<span class="dv">10</span>):
+  <span class="bu">print</span>(<span class="st">&quot;i = </span><span class="sc">%d</span><span class="st">&quot;</span> <span class="op">%</span> i)</code></pre></div>
+<h2 id="while">while</h2>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="kw">while</span> (<span class="dv">1</span>) {
+  printf(<span class="st">&quot;Bucle infinitooooo&quot;</span>);
+  usleep(<span class="dv">500000</span>);
+}</code></pre></div>
+<p>El equivalente sería:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">import</span> time <span class="co"># Para el sleep</span>
+
+<span class="cf">while</span> <span class="va">True</span>:
+  <span class="bu">print</span>(<span class="st">&quot;Bucle infinitooooo&quot;</span>)
+  sleep(<span class="fl">0.5</span>)</code></pre></div>
+<h2 id="funciones">Funciones</h2>
+<p>Una función en C como:</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">int</span> funcion(<span class="dt">char</span> *nombre) {
+  printf(<span class="st">&quot;Hola %s&quot;</span>, nombre);
+  <span class="kw">return</span> strlen(nombre);
+}</code></pre></div>
+<p>Se traduciría a:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="kw">def</span> funcion(nombre):
+  <span class="bu">print</span>(<span class="st">&quot;Hola </span><span class="sc">%s</span><span class="st">&quot;</span> <span class="op">%</span> nombre)
+  <span class="cf">return</span> <span class="bu">len</span>(nombre)</code></pre></div>
+<h2 id="clases-y-objetos">Clases y Objetos</h2>
+<p>C no tiene clases, así que no hay un equivalente directo.</p>
+<p>Una clase en Python se define con <code>class</code>:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="co"># Esta clase hereda de object, podría no heredar de nada, en Kivy se</span>
+<span class="co"># hereda típicamente de un Widget, Layout o App.</span>
+<span class="kw">class</span> Empleado(<span class="bu">object</span>):
+  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, nombre, apellido):
+    Persona.__init___()
+    <span class="va">self</span>.nombre <span class="op">=</span> nombre
+    <span class="va">self</span>.apellido <span class="op">=</span> apellido</code></pre></div>
+<p>Los atributos nombre y apellido se asinganan en el constructor que debe tener el nombre <code>__init__</code>.</p>

@@ -20,3 +20,6 @@ typedef struct {
     int pid;
     int num;
 } mensaje;
+
+struct mq_attr atrib_c;
+struct mq_attr atrib_p;

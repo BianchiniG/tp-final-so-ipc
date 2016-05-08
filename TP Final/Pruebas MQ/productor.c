@@ -5,9 +5,7 @@ int main() {
     // Define las variables para las colas de mensajes del barbero y clientes
     mqd_t cola_c;
     mqd_t cola_p;
-    char buffer[MAX_BUFFER] = "Mensaje";
-    struct mq_attr atrib_c;
-    struct mq_attr atrib_p;
+    char buffer[MAX_BUFFER];
     mensaje m_p;
     mensaje m_c;
 

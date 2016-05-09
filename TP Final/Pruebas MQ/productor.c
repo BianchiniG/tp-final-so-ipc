@@ -6,8 +6,6 @@ int main() {
     mqd_t cola_c;
     mqd_t cola_p;
     char buffer[MAX_BUFFER];
-    mensaje m_p;
-    mensaje m_c;
 
     // Inicializa los atributos de la cola del consumidor.
     atrib_c.mq_flags = 0;
@@ -33,7 +31,11 @@ int main() {
         } else {
             m_c.pid = getpid();
 
-            printf("*** Llega el cliente %d ***\n", getpid());
+            printf(ANSI_COLOR_YELLOW
+                    "*** Llega el cliente %d ***"
+                    ANSI_COLOR_RESET
+                    "\n",
+                    getpid());
             mq_send(cola_c, (const char *) &m_c, sizeof(mensaje), 0);
 
             // Espera confirmación.

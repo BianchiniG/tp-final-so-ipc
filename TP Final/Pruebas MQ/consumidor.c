@@ -6,8 +6,6 @@ int main() {
     mqd_t cola_c;
     mqd_t cola_p;
     char buffer[MAX_BUFFER];
-    mensaje m_p;
-    mensaje m_c;
 
     // Inicializa los atributos de la cola del consumidor.
     atrib_c.mq_flags = 0;
@@ -28,12 +26,20 @@ int main() {
     while(1) {
         mq_receive(cola_c, (char *) &m_c, sizeof(mensaje), NULL);
 
-        printf("Barbero: Me llamo el cliente %d\n", m_c.pid);
+        printf(ANSI_COLOR_RED
+                "Barbero: Me llamo el cliente %d"
+                ANSI_COLOR_RESET
+                "\n",
+                m_c.pid);
 
         // Envía al cliente señal de que lo va a atender.
         mq_send(cola_p, (const char *) &m_p, sizeof(mensaje), 0);
 
-        printf("Barbero: Atendiendo al cliente %d\n", m_c.pid);
+        printf(ANSI_COLOR_GREEN
+                "Barbero: Atendiendo al cliente %d"
+                ANSI_COLOR_RESET
+                "\n",
+                m_c.pid);
 
         sleep(10);
 

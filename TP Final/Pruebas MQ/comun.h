@@ -1,20 +1,18 @@
-// Includes de la librería estándar.
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <errno.h>
 #include <unistd.h>
 #include <sys/wait.h>
 
-// Includes de MQueue
-#include <fcntl.h>           /* For O_* constants */
-#include <sys/stat.h>        /* For mode constants */
+// Librerías de mqueue.
+#include <fcntl.h>
+#include <sys/stat.h>
 #include <mqueue.h>
 
-// Constantes
-#define MAX_BUFFER 10
-#define COLA_C "/mq_testbarb"
-#define COLA_P "/mq_testcli"
+// Definiciones
+#define MAX_BUFFER      10
+#define COLA_BARBERO    "/mq_barbero"
+#define COLA_CLIENTE    "/mq_cliente"
 
 // Colores para la consola
 #define ANSI_COLOR_RED     "\x1b[31m"
@@ -31,12 +29,6 @@ typedef struct {
     int num;
 } mensaje;
 
-// Variables de las colas
-struct mq_attr atrib = {
-    // Inicializa los atributos de la cola.
-    .mq_flags = 0,
-    .mq_maxmsg = 4,
-    .mq_msgsize = sizeof(mensaje),
-    .mq_curmsgs = 0,
-};
-mensaje m;
+//Mensajes de cada cola.
+mensaje m_barbero;
+mensaje m_cliente;

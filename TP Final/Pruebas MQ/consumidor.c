@@ -31,7 +31,7 @@ int main() {
                 "\n",
                 m_c.pid);
 
-        sleep(10);
+        sleep(3);
 
     }
 

@@ -12,6 +12,11 @@ cliente: cliente.o
 
 cliente.o: cliente.c comun.h
 	gcc -c cliente.c -o cliente.o
+productor: productor.c comun.h
+	gcc productor.c -o productor -lrt
+
+consumidor: consumidor.c comun.h
+	gcc consumidor.c -o consumidor -lrt
 
 clean:
-	rm barbero cliente *.o *.gch
+	rm barbero cliente *.o

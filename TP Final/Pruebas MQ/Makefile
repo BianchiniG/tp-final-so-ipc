@@ -1,17 +1,17 @@
 
-all: productor consumidor
+all: barbero cliente
 
-productor: productor.o
-	gcc -o productor -lrt productor.o
+barbero: barbero.o
+	gcc -o barbero -lrt barbero.o
 
-productor.o: productor.c comun.h
-	gcc -c productor.c -o productor.o
+barbero.o: barbero.c comun.h
+	gcc -c barbero.c -o barbero.o
 
-consumidor: consumidor.o
-	gcc -o consumidor -lrt consumidor.o
+cliente: cliente.o
+	gcc -o cliente -lrt cliente.o
 
-consumidor.o: consumidor.c comun.h
-	gcc -c consumidor.c -o consumidor.o
+cliente.o: cliente.c comun.h
+	gcc -c cliente.c -o cliente.o
 
 clean:
-	rm productor consumidor *.o
+	rm barbero cliente *.o *.gch

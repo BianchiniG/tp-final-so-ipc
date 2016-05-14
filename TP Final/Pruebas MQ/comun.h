@@ -32,19 +32,11 @@ typedef struct {
 } mensaje;
 
 // Variables de las colas
-struct mq_attr atrib_c = {
-    // Inicializa los atributos de la cola del cliente.
+struct mq_attr atrib = {
+    // Inicializa los atributos de la cola.
     .mq_flags = 0,
     .mq_maxmsg = 4,
     .mq_msgsize = sizeof(mensaje),
     .mq_curmsgs = 0,
 };
-struct mq_attr atrib_b = {
-    // Inicializa los atributos de la cola del barbero.
-    .mq_flags = 0,
-    .mq_maxmsg = 4,
-    .mq_msgsize = sizeof(mensaje),
-    .mq_curmsgs = 0,
-};
-mensaje m_p;
-mensaje m_c;
+mensaje m;

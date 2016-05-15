@@ -1,59 +1,56 @@
-#include "common.h"
+#include "comun.h"
 
-int main(int argc, char const *argv[]) {
+int main() {
+    // Variables locales del barbero.
+    mqd_t cola_barbero;
+    mqd_t cola_cliente;
+    char buffer[MAX_BUFFER];
+    int duracion_turno;
+    int estado;
 
-    char buffer_b[MAX_BUFFER];
-    char buffer_c[MAX_BUFFER];
+    // Atributos de las colas.
+    struct mq_attr attr_barbero;
+        attr_barbero.mq_flags = 0;
+        attr_barbero.mq_maxmsg = 5;
+        attr_barbero.mq_msgsize = sizeof(mensaje);
+        attr_barbero.mq_curmsgs = 0;
+    struct mq_attr attr_cliente;
+        attr_cliente.mq_flags = 0;
+        attr_cliente.mq_maxmsg = 5;
+        attr_cliente.mq_msgsize = sizeof(mensaje);
+        attr_cliente.mq_curmsgs = 0;
 
-    // Variables de mqueue.
-    mqd_t barbero, cliente;
-    struct mq_attr attr_b;
-    attr_b.mq_flags = 0;
-    attr_b.mq_maxmsg = 5;
-    attr_b.mq_msgsize = sizeof(mens_barb_cli);
-    attr_b.mq_curmsgs = 0;
-    struct mq_attr attr_c;
-    attr_c.mq_flags = 0;
-    attr_c.mq_maxmsg = 5;
-    attr_c.mq_msgsize = sizeof(mens_barb_cli);
-    attr_c.mq_curmsgs = 0;
+    // Crea semilla para tiempo random.
+    srand(time(NULL));
 
-    // Variables de mensaje.
-    TMensaje m;
+    // Crea las colas.
+    cola_barbero = mq_open(COLA_BARBERO, O_CREAT | O_RDWR, 0600, &attr_barbero);
+    cola_cliente = mq_open(COLA_CLIENTE, O_CREAT | O_NONBLOCK | O_RDWR, 0600, &attr_cliente);
 
-    // Crea la cola. (Necesario un return -1 si falla para kivy).
-    barbero = mq_open(BARBERO_MQ, O_CREAT | O_RDWR, 0600, &attr_b);
-    cliente = mq_open(CLIENTE_MQ, O_CREAT | O_RDWR, 0600, &attr_c);
+    while (1) {
+        mq_receive(cola_barbero, (char *) &m_barbero, sizeof(mensaje), NULL);
 
-    /*
-    // Inicia la comunicación con la interfaz gráfica.
-    iniciar(argc, argv, &m);
+        printf(ANSI_COLOR_RED
+                "Barbero: Me llamo el cliente %d"
+                ANSI_COLOR_RESET
+                "\n",
+                m_barbero.pid);
 
-    // Completa el arreglo de imágenes (MACRO).
-    strcpy(m.imagenes, ????)
+        // Envía al cliente señal de que lo va a atender.
+        estado = kill(m_barbero.pid, SIGUSR1);
 
-    // Envia mensaje a la interfaz gráfica.
-    enviar(&m);
-    */
+        // Reduce la cola de contador.
+        mq_receive(cola_cliente, (char *) &m_cliente, sizeof(mensaje), NULL);
 
-    // --- INICIO DEL PROGRAMA --- //
-    while(1){
-        int count = 0;
+        printf(ANSI_COLOR_GREEN
+                "Barbero: Atendiendo al cliente %d"
+                ANSI_COLOR_RESET
+                "\n",
+                m_barbero.pid);
 
-        // EL barbero inicia en espera de un mensaje.
-        mq_receive(barbero, (char *) &buffer_b, attr_b.mq_msgsize, 0);
-
-        /* */
-        // Acá la lógica es:
-        // Un cliente le envia al barbero que esta disponible
-        printf("Cliente recibido!");
-        // El barbero le avisa que también esta disponible.
-        mq_send(cliente, (char *) &buffer_c, attr_c.mq_msgsize, 0);
-        // El cliente gráficamente se mueve hasta la silla del barbero
-        // Comienza el turno del cliente.
-        /* */
-
-        // Lógica del turno.
+        // Retardo para simular lo que tarda en atender a cada cliente.
+        duracion_turno = (rand() % 25) + 5;
+        sleep(duracion_turno);
 
     }
 

@@ -15,7 +15,7 @@ typedef struct {
     int id;
     int estado;
     /* Información extra */
-    char msg[80];
+    char imagen[80];
     int x;
     int y;
 } TMensaje;
@@ -33,5 +33,12 @@ void iniciar(int argc, char **argv, TMensaje *m);
  *          que se esté simulando.
  */
 void enviar(TMensaje *m);
+#include <fcntl.h>           /* For O_* constants */
+#include <sys/stat.h>        /* For mode constants */
+#include <semaphore.h>
+#include <stdio.h>
+// Esto es para el colas: prog_c y prog_d
+#include <mqueue.h>
+#include <errno.h>
 
 #endif

@@ -5,6 +5,7 @@ int main() {
     mqd_t cola_barbero;
     mqd_t cola_cliente;
     char buffer[MAX_BUFFER];
+    int duracion_turno;
     int estado;
 
     // Atributos de las colas.
@@ -18,6 +19,9 @@ int main() {
         attr_cliente.mq_maxmsg = 5;
         attr_cliente.mq_msgsize = sizeof(mensaje);
         attr_cliente.mq_curmsgs = 0;
+
+    // Crea semilla para tiempo random.
+    srand(time(NULL));
 
     // Crea las colas.
     cola_barbero = mq_open(COLA_BARBERO, O_CREAT | O_RDWR, 0600, &attr_barbero);
@@ -45,7 +49,8 @@ int main() {
                 m_barbero.pid);
 
         // Retardo para simular lo que tarda en atender a cada cliente.
-        sleep(30);
+        duracion_turno = (rand() % 25) + 5;
+        sleep(duracion_turno);
 
     }
 

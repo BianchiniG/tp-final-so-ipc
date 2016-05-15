@@ -10,7 +10,8 @@ int main() {
     // Variables locales del cliente
     mqd_t cola_barbero;
     mqd_t cola_cliente;
-    int estado;     // Para chequear la bandera de cola llena.
+    int espera;
+    int stat_env, estado;     // Para chequear la bandera de cola llena.
 
     // Atributos de las colas.
     struct mq_attr attr_barbero;
@@ -24,6 +25,9 @@ int main() {
         attr_cliente.mq_msgsize = sizeof(mensaje);
         attr_cliente.mq_curmsgs = 0;
 
+    // Crea semilla para tiempo random.
+    srand(time(NULL));
+
     // Define que va a recibir la señal SIGUSR1 y el manejador.
     signal(SIGUSR1, sig);
 
@@ -32,15 +36,13 @@ int main() {
     cola_cliente = mq_open(COLA_CLIENTE, O_CREAT | O_NONBLOCK | O_RDWR, 0600, &attr_cliente);
 
     while (1) {
-
-        if ( fork() ) {    // Padre
-            // Retardo entre cada llegada de un cliente.
-            sleep(3);
-        } else {    // Hijo
+        if ( fork() ) {    // Padre.
+            // No hace nada salvo crear hijos y cobrar el plan.
+        } else {    // Hijo.
             // Intenta inscribirse en la cola de clientes (Sala de espera).
-            estado = mq_send(cola_cliente, (const char *) &m_cliente, sizeof(mensaje), 0);
+            stat_env = mq_send(cola_cliente, (const char *) &m_cliente, sizeof(mensaje), 0);
 
-            if (estado == 0) {    // Hay lugar.
+            if (stat_env == 0) {    // Hay lugar.
                 // Pone en el mensaje su pid para enviarlo al barbero.
                 m_barbero.pid = getpid();
                 mq_send(cola_barbero, (const char *) &m_barbero, sizeof(mensaje), 0);
@@ -54,9 +56,10 @@ int main() {
 
                     // Espera a ser atendido.
                     while(!atendiendose)
-                    ;
+                        // Se sienta y espera a que lo atiendan.
+                        ;
 
-                    // Reinicia la flag.
+                    // Es atendido. Reinicia la flag.
                     atendiendose = 0;
 
                     // Avisa que fue atendido.
@@ -65,11 +68,16 @@ int main() {
                         ANSI_COLOR_RESET
                         "\n",
                         getpid());
+
+                    return 0;   // El cliente sale de la tienda.
             } else {    // Si no había lugar.
-                if (attr_cliente.mq_maxmsg == EAGAIN)
-                    printf("Cliente %d: No hay lugar! *Sale de la tienda*\n", getpid());
+                printf("Cliente %d: No hay lugar! *Sale de la tienda*\n", getpid());
+                return 0;   // El cliente sale de la tienda.
             }
         }
+        // Retardo entre cada llegada de un cliente.
+        espera = (rand() % 10) + 2;
+        sleep(espera);
     }
 
     return 0;

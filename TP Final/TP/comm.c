@@ -82,7 +82,7 @@ void iniciar(int argc, char **argv, TMensaje *m) {
     }
     atexit(close_socket);
     memset((void *)m, 0, sizeof(TMensaje));
-    fprintf(stderr, "Puerto UDP: %d", port);
+    fprintf(stderr, "Puerto UDP: %d\n", port);
 }
 
 
@@ -95,4 +95,3 @@ void enviar(TMensaje *m) {
         die("sendto()");
     }
 }
-

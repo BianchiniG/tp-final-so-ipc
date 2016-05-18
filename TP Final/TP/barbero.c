@@ -1,10 +1,10 @@
 #include "comun.h"
+#include "comm.h"
 
-int main() {
+int main(int argc, char *argv[]) {
     // Variables locales del barbero.
     mqd_t cola_barbero;
     mqd_t cola_cliente;
-    char buffer[MAX_BUFFER];
     int duracion_turno;
     int estado;
 
@@ -20,12 +20,15 @@ int main() {
         attr_cliente.mq_msgsize = sizeof(mensaje);
         attr_cliente.mq_curmsgs = 0;
 
-    // Crea semilla para tiempo random.
-    srand(time(NULL));
-
     // Crea las colas.
     cola_barbero = mq_open(COLA_BARBERO, O_CREAT | O_RDWR, 0600, &attr_barbero);
     cola_cliente = mq_open(COLA_CLIENTE, O_CREAT | O_NONBLOCK | O_RDWR, 0600, &attr_cliente);
+
+    // Crea semilla para tiempo random.
+    srand(time(NULL));
+
+    TMensaje mens;
+    iniciar(argc, argv, &mens);
 
     while (1) {
         mq_receive(cola_barbero, (char *) &m_barbero, sizeof(mensaje), NULL);

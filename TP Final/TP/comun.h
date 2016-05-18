@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <time.h>
+#include <string.h>
 
 // Librerías de mqueue.
 #include <fcntl.h>

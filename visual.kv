@@ -1,0 +1,36 @@
+<Ventana>:
+    BoxLayout:
+        orientation: 'vertical'
+        size: root.size
+        FloatLayout:
+            top: 0
+            size_hint: 1, 0.8
+            id: vis
+            canvas:
+                Rectangle:
+                    source: 'Fondo.png'
+                    size: self.size
+                    pos: self.pos
+                Line:
+                    rectangle: self.x,self.y, self.width, self.height
+        BoxLayout:
+            size_hint: 1, 0.2
+            orientation: 'horizontal'
+            padding: 20
+            spacing: 20
+            Button:
+                text: "Matar a todos"
+                on_press: app.matar_a_todos()
+            Button:
+                text: "Compilar"
+                on_press: app.compilar()
+            Button:
+                text: "Barbero"
+                on_press: app.ejecutar('./c/barbero')
+            Button:
+                text: "Cliente"
+                on_press: app.ejecutar('./c/cliente')
+
+<Proceso@Image>
+    anim_delay: 0.08
+    size_hint: 1, 1

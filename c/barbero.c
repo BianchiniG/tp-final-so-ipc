@@ -45,7 +45,7 @@ int main(int argc, char *argv[]) {
         enviar(&mens);
     }
     memset(mens.imagen, '\0', sizeof(mens.imagen));
-    strcpy(mens.imagen, ".//Chars//barbero_atras.zip");
+    strcpy(mens.imagen, "./Chars/barbero_atras.zip");
     while (mens.y <= 80) {      // Avanza en y.
         if (mens.y % 2 == 0)
             usleep(15000);
@@ -54,7 +54,7 @@ int main(int argc, char *argv[]) {
     }
     // El barbero se ubica en su puesto
     memset(mens.imagen, '\0', sizeof(mens.imagen));
-    strcpy(mens.imagen, "./barbero.png");
+    strcpy(mens.imagen, "./Chars/barbero.png");
     enviar(&mens);
 
     while (1) {

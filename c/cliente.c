@@ -86,11 +86,19 @@ int main(int argc, char *argv[]) {
                     "\n",
                     getpid());
 
-                return 0;   // El cliente sale de la tienda.
         } else {    // Si no había lugar.
             printf("Cliente %d: No hay lugar! *Sale de la tienda*\n", getpid());
-            return 0;   // El cliente sale de la tienda.
+            memset(mens.imagen, '\0', sizeof(mens.imagen));
+            strcpy(mens.imagen, "./Chars/char1_largo/char1_largo_izquierda.zip");
+            while (mens.x > -335) {
+                if (mens.x % 2 == 0)
+                    usleep(15000);
+                mens.x -= 1;
+                enviar(&mens);
+            }
         }
+        mens.estado = -1;
+        enviar(&mens);
     }
 
     return 0;
@@ -99,11 +107,3 @@ int main(int argc, char *argv[]) {
 void sig(int s) {
     atendiendose = 1;
 }
-
-/*
-
-30 x 49
-
-50 x 69
-
-*/

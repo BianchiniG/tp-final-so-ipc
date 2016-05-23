@@ -12,6 +12,15 @@
 #include <mqueue.h>
 
 // Definiciones
+#define MAX_IMAGENES    8
+#define LARGO_FRENTE    0
+#define LARGO_ATRAS     1
+#define LARGO_IZQUIERDA 2
+#define LARGO_DERECHA   3
+#define CORTO_FRENTE    4
+#define CORTO_ATRAS     5
+#define CORTO_IZQUIERDA 6
+#define CORTO_DERECHA   7
 #define MAX_BUFFER      10
 #define COLA_BARBERO    "/mq_barbero"
 #define COLA_CLIENTE    "/mq_cliente"

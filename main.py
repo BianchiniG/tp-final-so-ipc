@@ -39,6 +39,7 @@ class Ventana(Widget):
 
 
 class VisualApp(App):
+    count = 0
     procesos = {}
     cant_mensajes = NumericProperty(0)
 

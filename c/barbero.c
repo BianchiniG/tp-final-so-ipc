@@ -1,6 +1,8 @@
 #include "comun.h"
 #include "comm.h"
 
+void inicializarBarbero(TMensaje mens);
+
 int main(int argc, char *argv[]) {
     // Variables locales del barbero.
     mqd_t cola_barbero;
@@ -30,32 +32,7 @@ int main(int argc, char *argv[]) {
     TMensaje mens;
     iniciar(argc, argv, &mens);
 
-    // Compone el primer mensaje.
-    mens.pid = getpid();
-    strcpy(mens.imagen, "./Chars/barbero_derecha.zip");
-    mens.x = -320;
-    mens.y = 0;
-    enviar(&mens);
-
-    // Avanza hasta la silla.
-    while (mens.x <= 320) {     // Avanza en x.
-        if (mens.x % 2 == 0)
-            usleep(15000);
-        mens.x += 1;
-        enviar(&mens);
-    }
-    memset(mens.imagen, '\0', sizeof(mens.imagen));
-    strcpy(mens.imagen, "./Chars/barbero_atras.zip");
-    while (mens.y <= 80) {      // Avanza en y.
-        if (mens.y % 2 == 0)
-            usleep(15000);
-        mens.y += 1;
-        enviar(&mens);
-    }
-    // El barbero se ubica en su puesto
-    memset(mens.imagen, '\0', sizeof(mens.imagen));
-    strcpy(mens.imagen, "./Chars/barbero.png");
-    enviar(&mens);
+    inicializarBarbero(mens);
 
     while (1) {
 
@@ -83,7 +60,39 @@ int main(int argc, char *argv[]) {
         duracion_turno = (rand() % 25) + 5;
         sleep(duracion_turno);
 
+        // Envía al cliente señal de que terminó..
+        estado = kill(m_barbero.pid, SIGUSR1);
+
     }
 
     return 0;
+}
+
+void inicializarBarbero(TMensaje mens) {
+    // Compone el primer mensaje.
+    mens.pid = getpid();
+    strcpy(mens.imagen, "./Chars/barbero_derecha.zip");
+    mens.x = -320;
+    mens.y = 0;
+    enviar(&mens);
+
+    // Avanza hasta la silla.
+        while (mens.x <= 320) {     // Avanza en x.
+            if (mens.x % 2 == 0)
+                usleep(15000);
+            mens.x += 1;
+            enviar(&mens);
+        }
+        memset(mens.imagen, '\0', sizeof(mens.imagen));
+        strcpy(mens.imagen, "./Chars/barbero_atras.zip");
+        while (mens.y <= 80) {      // Avanza en y.
+            if (mens.y % 2 == 0)
+                usleep(15000);
+            mens.y += 1;
+            enviar(&mens);
+        }
+        // El barbero se ubica en su puesto
+        memset(mens.imagen, '\0', sizeof(mens.imagen));
+        strcpy(mens.imagen, "./Chars/barbero.png");
+        enviar(&mens);
 }

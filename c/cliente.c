@@ -77,18 +77,106 @@ int main(int argc, char *argv[]) {
             enviar(&mens);
         }
 
+        // ------------------------------------------------------------------ //
         // Espera a ser atendido.
+        // ------------------------------------------------------------------ //
         while(!atendiendose) {
             // Se sienta y espera a que lo atiendan.
         }
 
-        // Es atendido.
-        printf(ANSI_COLOR_YELLOW "Cliente %d: Me atendió!" ANSI_COLOR_RESET "\n", getpid());
-        while(atendiendose) {
-            // Se sienta en la silla del barbero, etc.
+        // Sale de la sala de espera..
+        memset(mens.imagen, '\0', sizeof(mens.imagen));
+        if (num_personaje == 1) {
+            strcpy(mens.imagen, "./Chars/char1_largo/char1_largo_atras.zip");
+        } else if (num_personaje == 2) {
+            strcpy(mens.imagen, "./Chars/char2_largo/char2_largo_atras.zip");
+        } else if (num_personaje == 3) {
+            strcpy(mens.imagen, "./Chars/char3_largo/char3_largo_atras.zip");
+        } else if (num_personaje == 4) {
+            strcpy(mens.imagen, "./Chars/char4_largo/char4_largo_atras.zip");
+        }
+        while (mens.y < 0) {
+            if (mens.y % 2 == 0)
+                usleep(15000);
+            mens.y += 1;
+            enviar(&mens);
         }
 
-        // Cliente sale de la barbería:
+        // Avanza hasta la silla del barbero.
+        memset(mens.imagen, '\0', sizeof(mens.imagen));
+        if (num_personaje == 1) {
+            strcpy(mens.imagen, "./Chars/char1_largo/char1_largo_derecha.zip");
+        } else if (num_personaje == 2) {
+            strcpy(mens.imagen, "./Chars/char2_largo/char2_largo_derecha.zip");
+        } else if (num_personaje == 3) {
+            strcpy(mens.imagen, "./Chars/char3_largo/char3_largo_derecha.zip");
+        } else if (num_personaje == 4) {
+            strcpy(mens.imagen, "./Chars/char4_largo/char4_largo_derecha.zip");
+        }
+        while (mens.x <= 220) {
+            if (mens.x % 2 == 0)
+                usleep(15000);
+            mens.x += 1;
+            enviar(&mens);
+        }
+        memset(mens.imagen, '\0', sizeof(mens.imagen));
+        if (num_personaje == 1) {
+            strcpy(mens.imagen, "./Chars/char1_largo/char1_largo_atras.zip");
+        } else if (num_personaje == 2) {
+            strcpy(mens.imagen, "./Chars/char2_largo/char2_largo_atras.zip");
+        } else if (num_personaje == 3) {
+            strcpy(mens.imagen, "./Chars/char3_largo/char3_largo_atras.zip");
+        } else if (num_personaje == 4) {
+            strcpy(mens.imagen, "./Chars/char4_largo/char4_largo_atras.zip");
+        }
+        while (mens.y <= 80) {
+            if (mens.y % 2 == 0)
+                usleep(15000);
+            mens.y += 1;
+            enviar(&mens);
+        }
+
+        // ------------------------------------------------------------------ //
+        // Es atendido.
+        // ------------------------------------------------------------------ //
+        printf(ANSI_COLOR_YELLOW "Cliente %d: Me atendió!" ANSI_COLOR_RESET "\n", getpid());
+        while(atendiendose) {
+            // Se sienta en la silla y es atendido.
+            memset(mens.imagen, '\0', sizeof(mens.imagen));
+            if (num_personaje == 1) {
+                strcpy(mens.imagen, "./Chars/char1_largo/char1_atendiendose.png");
+            } else if (num_personaje == 2) {
+                strcpy(mens.imagen, "./Chars/char2_largo/char2_atendiendose.png");
+            } else if (num_personaje == 3) {
+                strcpy(mens.imagen, "./Chars/char3_largo/char3_atendiendose.png");
+            } else if (num_personaje == 4) {
+                strcpy(mens.imagen, "./Chars/char4_largo/char4_atendiendose.png");
+            }
+            mens.pid = getpid();
+            mens.x = 270;
+            mens.y = 128;
+            enviar(&mens);
+        }
+
+        // Sale de la barbería.
+        memset(mens.imagen, '\0', sizeof(mens.imagen));
+        if (num_personaje == 1) {
+            strcpy(mens.imagen, "./Chars/char1_corto/char1_corto_frente.zip");
+        } else if (num_personaje == 2) {
+            strcpy(mens.imagen, "./Chars/char2_corto/char2_corto_frente.zip");
+        } else if (num_personaje == 3) {
+            strcpy(mens.imagen, "./Chars/char3_corto/char3_corto_frente.zip");
+        } else if (num_personaje == 4) {
+            strcpy(mens.imagen, "./Chars/char4_corto/char4_corto_frente.zip");
+        }
+        mens.x = 220;
+        mens.y = 80;
+        while (mens.y > 0) {
+            if (mens.y % 2 == 0)
+                usleep(15000);
+            mens.y -= 1;
+            enviar(&mens);
+        }
         memset(mens.imagen, '\0', sizeof(mens.imagen));
         if (num_personaje == 1) {
             strcpy(mens.imagen, "./Chars/char1_corto/char1_corto_izquierda.zip");
@@ -108,7 +196,7 @@ int main(int argc, char *argv[]) {
     } else {    // Si no había lugar.
         printf("Cliente %d: No hay lugar! *Sale de la tienda*\n", getpid());
 
-        // Cliente sale de la barbería:
+        // Sale de la barbería.
         memset(mens.imagen, '\0', sizeof(mens.imagen));
         if (num_personaje == 1) {
             strcpy(mens.imagen, "./Chars/char1_largo/char1_largo_izquierda.zip");

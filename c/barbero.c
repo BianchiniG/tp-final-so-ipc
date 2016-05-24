@@ -49,7 +49,7 @@ int main(int argc, char *argv[]) {
             // Dibuja al barbero dormido en la silla-
             memset(mens.imagen, '\0', sizeof(mens.imagen));
             strcpy(mens.imagen, "./Chars/barbero_corto/barbero_durmiendo.zip");
-            mens.x = 271;
+            mens.x = 270;
             mens.y = 128;
             enviar(&mens);
             mq_receive(cola_barbero, (char *) &m_barbero, sizeof(mensaje), NULL);

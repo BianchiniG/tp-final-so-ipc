@@ -88,26 +88,43 @@ int main(int argc, char *argv[]) {
             // Se sienta en la silla del barbero, etc.
         }
 
+        // Cliente sale de la barbería:
+        memset(mens.imagen, '\0', sizeof(mens.imagen));
+        if (num_personaje == 1) {
+            strcpy(mens.imagen, "./Chars/char1_corto/char1_corto_izquierda.zip");
+        } else if (num_personaje == 2) {
+            strcpy(mens.imagen, "./Chars/char2_corto/char2_corto_izquierda.zip");
+        } else if (num_personaje == 3) {
+            strcpy(mens.imagen, "./Chars/char3_corto/char3_corto_izquierda.zip");
+        } else if (num_personaje == 4) {
+            strcpy(mens.imagen, "./Chars/char4_corto/char4_corto_izquierda.zip");
+        }
+        while (mens.x > -340) {
+            if (mens.x % 2 == 0)
+            usleep(15000);
+            mens.x--;
+            enviar(&mens);
+        }
     } else {    // Si no había lugar.
         printf("Cliente %d: No hay lugar! *Sale de la tienda*\n", getpid());
-    }
 
-    // Cliente sale de la barbería:
-    memset(mens.imagen, '\0', sizeof(mens.imagen));
-    if (num_personaje == 1) {
-        strcpy(mens.imagen, "./Chars/char1_corto/char1_corto_izquierda.zip");
-    } else if (num_personaje == 2) {
-        strcpy(mens.imagen, "./Chars/char2_corto/char2_corto_izquierda.zip");
-    } else if (num_personaje == 3) {
-        strcpy(mens.imagen, "./Chars/char3_corto/char3_corto_izquierda.zip");
-    } else if (num_personaje == 4) {
-        strcpy(mens.imagen, "./Chars/char4_corto/char4_corto_izquierda.zip");
-    }
-    while (mens.x > -340) {
-        if (mens.x % 2 == 0)
+        // Cliente sale de la barbería:
+        memset(mens.imagen, '\0', sizeof(mens.imagen));
+        if (num_personaje == 1) {
+            strcpy(mens.imagen, "./Chars/char1_largo/char1_largo_izquierda.zip");
+        } else if (num_personaje == 2) {
+            strcpy(mens.imagen, "./Chars/char2_largo/char2_largo_izquierda.zip");
+        } else if (num_personaje == 3) {
+            strcpy(mens.imagen, "./Chars/char3_largo/char3_largo_izquierda.zip");
+        } else if (num_personaje == 4) {
+            strcpy(mens.imagen, "./Chars/char4_largo/char4_largo_izquierda.zip");
+        }
+        while (mens.x > -340) {
+            if (mens.x % 2 == 0)
             usleep(15000);
-        mens.x--;
-        enviar(&mens);
+            mens.x--;
+            enviar(&mens);
+        }
     }
 
     // Mata al proceso del cliente.

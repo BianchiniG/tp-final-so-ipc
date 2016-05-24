@@ -7,8 +7,13 @@ int main(int argc, char *argv[]) {
     // Variables locales del barbero.
     mqd_t cola_barbero;
     mqd_t cola_cliente;
-    int duracion_turno;
-    int estado, count;
+    int duracion_turno,
+        estado,
+        count,
+        dormido;
+    struct timespec timeout;
+
+
 
     // Atributos de las colas.
     struct mq_attr attr_barbero;
@@ -35,14 +40,29 @@ int main(int argc, char *argv[]) {
     inicializarBarbero(mens);
 
     while (1) {
+        clock_gettime(CLOCK_REALTIME, &timeout);
+        timeout.tv_sec += 10;
+        dormido = mq_timedreceive(cola_barbero, (char *) &m_barbero, sizeof(mensaje), NULL, &timeout);
 
-        mq_receive(cola_barbero, (char *) &m_barbero, sizeof(mensaje), NULL);
+        if (dormido == -1) {
+            printf("DORMIDO!\n");
+            // Dibuja al barbero dormido en la silla-
+            memset(mens.imagen, '\0', sizeof(mens.imagen));
+            strcpy(mens.imagen, "./Chars/barbero_corto/barbero_durmiendo.zip");
+            mens.x = 271;
+            mens.y = 128;
+            enviar(&mens);
+            mq_receive(cola_barbero, (char *) &m_barbero, sizeof(mensaje), NULL);
+        }
 
-        printf(ANSI_COLOR_RED
-                "Barbero: Me llamo el cliente %d"
-                ANSI_COLOR_RESET
-                "\n",
-                m_barbero.pid);
+        // El barbero se ubica en su puesto.
+        memset(mens.imagen, '\0', sizeof(mens.imagen));
+        strcpy(mens.imagen, "./Chars/barbero.png");
+        mens.x = 320;
+        mens.y = 80;
+        enviar(&mens);
+
+        printf(ANSI_COLOR_RED "Barbero: Me llamo el cliente %d" ANSI_COLOR_RESET "\n", m_barbero.pid);
 
         // Envía al cliente señal de que lo va a atender.
         estado = kill(m_barbero.pid, SIGUSR1);
@@ -50,17 +70,13 @@ int main(int argc, char *argv[]) {
         // Reduce la cola de contador.
         mq_receive(cola_cliente, (char *) &m_cliente, sizeof(mensaje), NULL);
 
-        printf(ANSI_COLOR_GREEN
-                "Barbero: Atendiendo al cliente %d"
-                ANSI_COLOR_RESET
-                "\n",
-                m_barbero.pid);
+        printf(ANSI_COLOR_GREEN "Barbero: Atendiendo al cliente %d" ANSI_COLOR_RESET "\n", m_barbero.pid);
 
         // Retardo para simular lo que tarda en atender a cada cliente.
         duracion_turno = (rand() % 25) + 5;
         sleep(duracion_turno);
 
-        // Envía al cliente señal de que terminó..
+        // Envía al cliente señal de que terminó de atenderlo.
         estado = kill(m_barbero.pid, SIGUSR1);
 
     }

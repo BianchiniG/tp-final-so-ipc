@@ -12,8 +12,7 @@ int main(int argc, char *argv[]) {
     mqd_t cola_barbero;
     mqd_t cola_cliente;
     TMensaje mens;
-    int asiento,
-        num_personaje,
+    int num_personaje,
         stat_env;     // Para chequear la bandera de cola llena.
 
     // Atributos de las colas.
@@ -80,8 +79,14 @@ int main(int argc, char *argv[]) {
         // ------------------------------------------------------------------ //
         // Espera a ser atendido.
         // ------------------------------------------------------------------ //
-        while(!atendiendose) {
-            // Se sienta y espera a que lo atiendan.
+        if (!atendiendose) {
+            mens.estado = 2;
+            enviar(&mens);
+
+            while(!atendiendose)
+                ;   // No hace nada.
+
+            // sleep(5);
         }
 
         // Sale de la sala de espera..
@@ -140,7 +145,7 @@ int main(int argc, char *argv[]) {
         // Es atendido.
         // ------------------------------------------------------------------ //
         printf(ANSI_COLOR_YELLOW "Cliente %d: Me atendió!" ANSI_COLOR_RESET "\n", getpid());
-        while(atendiendose) {
+        if (atendiendose){
             // Se sienta en la silla y es atendido.
             memset(mens.imagen, '\0', sizeof(mens.imagen));
             if (num_personaje == 1) {
@@ -157,6 +162,8 @@ int main(int argc, char *argv[]) {
             mens.y = 128;
             enviar(&mens);
         }
+        while(atendiendose)
+        ;
 
         // Sale de la barbería.
         memset(mens.imagen, '\0', sizeof(mens.imagen));

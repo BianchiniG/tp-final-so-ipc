@@ -14,22 +14,86 @@ int main(int argc, char *argv[]) {
     TMensaje mens;
     int num_personaje,
         stat_env;     // Para chequear la bandera de cola llena.
+    // Variables contenedoras para las imágenes del pj.
+    char img_pj_frente_largo[80];
+    char img_pj_izquierda_largo[80];
+    char img_pj_derecha_largo[80];
+    char img_pj_atras_largo[80];
+    char img_pj_frente_corto[80];
+    char img_pj_izquierda_corto[80];
+    char img_pj_derecha_corto[80];
+    char img_pj_atras_corto[80];
+    char img_pj_sentado_frente[80];
+    char img_pj_atendido[80];
 
     // Atributos de las colas.
     struct mq_attr attr_barbero;
         attr_barbero.mq_flags = 0;
-        attr_barbero.mq_maxmsg = 5;
+        attr_barbero.mq_maxmsg = 3;
         attr_barbero.mq_msgsize = sizeof(mensaje);
         attr_barbero.mq_curmsgs = 0;
     struct mq_attr attr_cliente;
         attr_cliente.mq_flags = 0;
-        attr_cliente.mq_maxmsg = 5;
+        attr_cliente.mq_maxmsg = 3;
         attr_cliente.mq_msgsize = sizeof(mensaje);
         attr_cliente.mq_curmsgs = 0;
 
     // Crea semilla para numeros random.
     srand(time(NULL));
-    num_personaje = (rand() % 3) + 1;
+    num_personaje = (rand() % 4) + 1;
+    // Asigna las imágenes del pj sorteado.
+    if (num_personaje == 1)
+    {
+        strcpy(img_pj_frente_largo, "./Chars/char1_largo/char1_largo_frente.zip");
+        strcpy(img_pj_izquierda_largo, "./Chars/char1_largo/char1_largo_izquierda.zip");
+        strcpy(img_pj_derecha_largo, "./Chars/char1_largo/char1_largo_derecha.zip");
+        strcpy(img_pj_atras_largo, "./Chars/char1_largo/char1_largo_atras.zip");
+        strcpy(img_pj_frente_corto, "./Chars/char1_corto/char1_corto_frente.zip");
+        strcpy(img_pj_izquierda_corto, "./Chars/char1_corto/char1_corto_izquierda.zip");
+        strcpy(img_pj_derecha_corto, "./Chars/char1_corto/char1_corto_derecha.zip");
+        strcpy(img_pj_atras_corto, "./Chars/char1_corto/char1_corto_atras.zip");
+        strcpy(img_pj_sentado_frente, "./Chars/char1_largo/char1_sentado_frente.png");
+        strcpy(img_pj_atendido, "./Chars/char1_largo/char1_atendiendose.png");
+    }
+    else if (num_personaje == 2)
+    {
+        strcpy(img_pj_frente_largo, "./Chars/char2_largo/char2_largo_frente.zip");
+        strcpy(img_pj_izquierda_largo, "./Chars/char2_largo/char2_largo_izquierda.zip");
+        strcpy(img_pj_derecha_largo, "./Chars/char2_largo/char2_largo_derecha.zip");
+        strcpy(img_pj_atras_largo, "./Chars/char2_largo/char2_largo_atras.zip");
+        strcpy(img_pj_frente_corto, "./Chars/char2_corto/char2_corto_frente.zip");
+        strcpy(img_pj_izquierda_corto, "./Chars/char2_corto/char2_corto_izquierda.zip");
+        strcpy(img_pj_derecha_corto, "./Chars/char2_corto/char2_corto_derecha.zip");
+        strcpy(img_pj_atras_corto, "./Chars/char2_corto/char2_corto_atras.zip");
+        strcpy(img_pj_sentado_frente, "./Chars/char2_largo/char2_sentado_frente.png");
+        strcpy(img_pj_atendido, "./Chars/char2_largo/char2_atendiendose.png");
+    }
+    else if (num_personaje == 3)
+    {
+        strcpy(img_pj_frente_largo, "./Chars/char3_largo/char3_largo_frente.zip");
+        strcpy(img_pj_izquierda_largo, "./Chars/char3_largo/char3_largo_izquierda.zip");
+        strcpy(img_pj_derecha_largo, "./Chars/char3_largo/char3_largo_derecha.zip");
+        strcpy(img_pj_atras_largo, "./Chars/char3_largo/char3_largo_atras.zip");
+        strcpy(img_pj_frente_corto, "./Chars/char3_corto/char3_corto_frente.zip");
+        strcpy(img_pj_izquierda_corto, "./Chars/char3_corto/char3_corto_izquierda.zip");
+        strcpy(img_pj_derecha_corto, "./Chars/char3_corto/char3_corto_derecha.zip");
+        strcpy(img_pj_atras_corto, "./Chars/char3_corto/char3_corto_atras.zip");
+        strcpy(img_pj_sentado_frente, "./Chars/char3_largo/char3_sentado_frente.png");
+        strcpy(img_pj_atendido, "./Chars/char3_largo/char3_atendiendose.png");
+    }
+    else if (num_personaje == 4)
+    {
+        strcpy(img_pj_frente_largo, "./Chars/char4_largo/char4_largo_frente.zip");
+        strcpy(img_pj_izquierda_largo, "./Chars/char4_largo/char4_largo_izquierda.zip");
+        strcpy(img_pj_derecha_largo, "./Chars/char4_largo/char4_largo_derecha.zip");
+        strcpy(img_pj_atras_largo, "./Chars/char4_largo/char4_largo_atras.zip");
+        strcpy(img_pj_frente_corto, "./Chars/char4_corto/char4_corto_frente.zip");
+        strcpy(img_pj_izquierda_corto, "./Chars/char4_corto/char4_corto_izquierda.zip");
+        strcpy(img_pj_derecha_corto, "./Chars/char4_corto/char4_corto_derecha.zip");
+        strcpy(img_pj_atras_corto, "./Chars/char4_corto/char4_corto_atras.zip");
+        strcpy(img_pj_sentado_frente, "./Chars/char4_largo/char4_sentado_frente.png");
+        strcpy(img_pj_atendido, "./Chars/char4_largo/char4_atendiendose.png");
+    }
 
     // Define que va a recibir la señal SIGUSR1 y el manejador.
     signal(SIGUSR1, sig);
@@ -43,18 +107,10 @@ int main(int argc, char *argv[]) {
 
     // Cliente entra en la barbería:
     memset(mens.imagen, '\0', sizeof(mens.imagen));
-    if (num_personaje == 1) {
-        strcpy(mens.imagen, "./Chars/char1_largo/char1_largo_derecha.zip");
-    } else if (num_personaje == 2) {
-        strcpy(mens.imagen, "./Chars/char2_largo/char2_largo_derecha.zip");
-    } else if (num_personaje == 3) {
-        strcpy(mens.imagen, "./Chars/char3_largo/char3_largo_derecha.zip");
-    } else if (num_personaje == 4) {
-        strcpy(mens.imagen, "./Chars/char4_largo/char4_largo_derecha.zip");
-    }
+    strcpy(mens.imagen, img_pj_derecha_largo);
     mens.pid = getpid();
-    mens.x = -320;
-    mens.y = 0;
+    mens.x = -340;
+    mens.y = -50;
     enviar(&mens);
 
     // Intenta inscribirse en la cola de clientes (Sala de espera).
@@ -69,7 +125,7 @@ int main(int argc, char *argv[]) {
         printf(ANSI_COLOR_YELLOW "Cliente %d: Llegue!" ANSI_COLOR_RESET "\n", getpid());
 
         // El cliente avanza hasta la sala de espera.
-        while (mens.x <= -160) {
+        while (mens.x <= -205) {
             if (mens.x % 2 == 0)
                 usleep(15000);
             mens.x += 1;
@@ -80,44 +136,44 @@ int main(int argc, char *argv[]) {
         // Espera a ser atendido.
         // ------------------------------------------------------------------ //
         if (!atendiendose) {
+            memset(mens.imagen, '\0', sizeof(mens.imagen));
+            strcpy(mens.imagen, img_pj_atras_largo);
+            while (mens.y <= 50){
+                if (mens.y % 2 == 0)
+                usleep(15000);
+                mens.y += 1;
+                enviar(&mens);
+            }
+
+            memset(mens.imagen, '\0', sizeof(mens.imagen));
+            strcpy(mens.imagen, img_pj_sentado_frente);
+            mens.x = -205;
+            mens.y = 90;
             mens.estado = 2;
             enviar(&mens);
 
             while(!atendiendose)
                 ;   // No hace nada.
 
-            // sleep(5);
+            mens.y = 50;
+            mens.estado = 3;
+            enviar(&mens);
         }
 
-        // Sale de la sala de espera..
+        // Sale de la sala de espera.
         memset(mens.imagen, '\0', sizeof(mens.imagen));
-        if (num_personaje == 1) {
-            strcpy(mens.imagen, "./Chars/char1_largo/char1_largo_atras.zip");
-        } else if (num_personaje == 2) {
-            strcpy(mens.imagen, "./Chars/char2_largo/char2_largo_atras.zip");
-        } else if (num_personaje == 3) {
-            strcpy(mens.imagen, "./Chars/char3_largo/char3_largo_atras.zip");
-        } else if (num_personaje == 4) {
-            strcpy(mens.imagen, "./Chars/char4_largo/char4_largo_atras.zip");
-        }
-        while (mens.y < 0) {
+        strcpy(mens.imagen, img_pj_frente_largo);
+        enviar(&mens);
+        while (mens.y > -50) {
             if (mens.y % 2 == 0)
                 usleep(15000);
-            mens.y += 1;
+            mens.y -= 1;
             enviar(&mens);
         }
 
         // Avanza hasta la silla del barbero.
         memset(mens.imagen, '\0', sizeof(mens.imagen));
-        if (num_personaje == 1) {
-            strcpy(mens.imagen, "./Chars/char1_largo/char1_largo_derecha.zip");
-        } else if (num_personaje == 2) {
-            strcpy(mens.imagen, "./Chars/char2_largo/char2_largo_derecha.zip");
-        } else if (num_personaje == 3) {
-            strcpy(mens.imagen, "./Chars/char3_largo/char3_largo_derecha.zip");
-        } else if (num_personaje == 4) {
-            strcpy(mens.imagen, "./Chars/char4_largo/char4_largo_derecha.zip");
-        }
+        strcpy(mens.imagen, img_pj_derecha_largo);
         while (mens.x <= 220) {
             if (mens.x % 2 == 0)
                 usleep(15000);
@@ -125,15 +181,7 @@ int main(int argc, char *argv[]) {
             enviar(&mens);
         }
         memset(mens.imagen, '\0', sizeof(mens.imagen));
-        if (num_personaje == 1) {
-            strcpy(mens.imagen, "./Chars/char1_largo/char1_largo_atras.zip");
-        } else if (num_personaje == 2) {
-            strcpy(mens.imagen, "./Chars/char2_largo/char2_largo_atras.zip");
-        } else if (num_personaje == 3) {
-            strcpy(mens.imagen, "./Chars/char3_largo/char3_largo_atras.zip");
-        } else if (num_personaje == 4) {
-            strcpy(mens.imagen, "./Chars/char4_largo/char4_largo_atras.zip");
-        }
+        strcpy(mens.imagen, img_pj_atras_largo);
         while (mens.y <= 80) {
             if (mens.y % 2 == 0)
                 usleep(15000);
@@ -148,15 +196,7 @@ int main(int argc, char *argv[]) {
         if (atendiendose){
             // Se sienta en la silla y es atendido.
             memset(mens.imagen, '\0', sizeof(mens.imagen));
-            if (num_personaje == 1) {
-                strcpy(mens.imagen, "./Chars/char1_largo/char1_atendiendose.png");
-            } else if (num_personaje == 2) {
-                strcpy(mens.imagen, "./Chars/char2_largo/char2_atendiendose.png");
-            } else if (num_personaje == 3) {
-                strcpy(mens.imagen, "./Chars/char3_largo/char3_atendiendose.png");
-            } else if (num_personaje == 4) {
-                strcpy(mens.imagen, "./Chars/char4_largo/char4_atendiendose.png");
-            }
+            strcpy(mens.imagen, img_pj_atendido);
             mens.pid = getpid();
             mens.x = 270;
             mens.y = 128;
@@ -167,33 +207,17 @@ int main(int argc, char *argv[]) {
 
         // Sale de la barbería.
         memset(mens.imagen, '\0', sizeof(mens.imagen));
-        if (num_personaje == 1) {
-            strcpy(mens.imagen, "./Chars/char1_corto/char1_corto_frente.zip");
-        } else if (num_personaje == 2) {
-            strcpy(mens.imagen, "./Chars/char2_corto/char2_corto_frente.zip");
-        } else if (num_personaje == 3) {
-            strcpy(mens.imagen, "./Chars/char3_corto/char3_corto_frente.zip");
-        } else if (num_personaje == 4) {
-            strcpy(mens.imagen, "./Chars/char4_corto/char4_corto_frente.zip");
-        }
+        strcpy(mens.imagen, img_pj_frente_corto);
         mens.x = 220;
         mens.y = 80;
-        while (mens.y > 0) {
+        while (mens.y > -50) {
             if (mens.y % 2 == 0)
                 usleep(15000);
             mens.y -= 1;
             enviar(&mens);
         }
         memset(mens.imagen, '\0', sizeof(mens.imagen));
-        if (num_personaje == 1) {
-            strcpy(mens.imagen, "./Chars/char1_corto/char1_corto_izquierda.zip");
-        } else if (num_personaje == 2) {
-            strcpy(mens.imagen, "./Chars/char2_corto/char2_corto_izquierda.zip");
-        } else if (num_personaje == 3) {
-            strcpy(mens.imagen, "./Chars/char3_corto/char3_corto_izquierda.zip");
-        } else if (num_personaje == 4) {
-            strcpy(mens.imagen, "./Chars/char4_corto/char4_corto_izquierda.zip");
-        }
+        strcpy(mens.imagen, img_pj_izquierda_corto);
         while (mens.x > -340) {
             if (mens.x % 2 == 0)
             usleep(15000);
@@ -205,15 +229,7 @@ int main(int argc, char *argv[]) {
 
         // Sale de la barbería.
         memset(mens.imagen, '\0', sizeof(mens.imagen));
-        if (num_personaje == 1) {
-            strcpy(mens.imagen, "./Chars/char1_largo/char1_largo_izquierda.zip");
-        } else if (num_personaje == 2) {
-            strcpy(mens.imagen, "./Chars/char2_largo/char2_largo_izquierda.zip");
-        } else if (num_personaje == 3) {
-            strcpy(mens.imagen, "./Chars/char3_largo/char3_largo_izquierda.zip");
-        } else if (num_personaje == 4) {
-            strcpy(mens.imagen, "./Chars/char4_largo/char4_largo_izquierda.zip");
-        }
+        strcpy(mens.imagen, img_pj_izquierda_largo);
         while (mens.x > -340) {
             if (mens.x % 2 == 0)
             usleep(15000);

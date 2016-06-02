@@ -9,7 +9,6 @@ int main(int argc, char *argv[]) {
     mqd_t cola_cliente;
     int duracion_turno,
         estado,
-        count,
         dormido;
     struct timespec timeout;
 
@@ -18,12 +17,12 @@ int main(int argc, char *argv[]) {
     // Atributos de las colas.
     struct mq_attr attr_barbero;
         attr_barbero.mq_flags = 0;
-        attr_barbero.mq_maxmsg = 5;
+        attr_barbero.mq_maxmsg = 3;
         attr_barbero.mq_msgsize = sizeof(mensaje);
         attr_barbero.mq_curmsgs = 0;
     struct mq_attr attr_cliente;
         attr_cliente.mq_flags = 0;
-        attr_cliente.mq_maxmsg = 5;
+        attr_cliente.mq_maxmsg = 3;
         attr_cliente.mq_msgsize = sizeof(mensaje);
         attr_cliente.mq_curmsgs = 0;
 
@@ -88,27 +87,27 @@ void inicializarBarbero(TMensaje mens) {
     // Compone el primer mensaje.
     mens.pid = getpid();
     strcpy(mens.imagen, "./Chars/barbero_derecha.zip");
-    mens.x = -320;
-    mens.y = 0;
+    mens.x = -340;
+    mens.y = -50;
     enviar(&mens);
 
     // Avanza hasta la silla.
-        while (mens.x <= 320) {     // Avanza en x.
-            if (mens.x % 2 == 0)
-                usleep(15000);
-            mens.x += 1;
-            enviar(&mens);
-        }
-        memset(mens.imagen, '\0', sizeof(mens.imagen));
-        strcpy(mens.imagen, "./Chars/barbero_atras.zip");
-        while (mens.y <= 80) {      // Avanza en y.
-            if (mens.y % 2 == 0)
-                usleep(15000);
-            mens.y += 1;
-            enviar(&mens);
-        }
-        // El barbero se ubica en su puesto
-        memset(mens.imagen, '\0', sizeof(mens.imagen));
-        strcpy(mens.imagen, "./Chars/barbero.png");
+    while (mens.x <= 320) {     // Avanza en x.
+        if (mens.x % 2 == 0)
+            usleep(15000);
+        mens.x += 1;
         enviar(&mens);
+    }
+    memset(mens.imagen, '\0', sizeof(mens.imagen));
+    strcpy(mens.imagen, "./Chars/barbero_atras.zip");
+    while (mens.y <= 80) {      // Avanza en y.
+        if (mens.y % 2 == 0)
+            usleep(15000);
+        mens.y += 1;
+        enviar(&mens);
+    }
+    // El barbero se ubica en su puesto
+    memset(mens.imagen, '\0', sizeof(mens.imagen));
+    strcpy(mens.imagen, "./Chars/barbero.png");
+    enviar(&mens);
 }

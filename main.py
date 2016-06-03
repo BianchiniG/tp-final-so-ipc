@@ -50,6 +50,8 @@ class VisualApp(App):
     asientos = {'1' : 0,
                 '2' : 0,
                 '3' : 0}
+    icon = './Chars/icono.png'
+    title = 'Barbero Dormilon - Sistemas Operativos 2016'
 
     def build(self):
         reactor.listenUDP(2016, EscuchaC(self))
@@ -112,25 +114,23 @@ class VisualApp(App):
             if m.imagen is not None:
                 proceso.source = m.imagen
             if m.estado == 3:
-                self.levantarse()
+                self.levantarse(m)
 
     def sentarse(self, m, p):
         if self.asientos['1'] == 0:
-            p.x = p.x - 75
-            self.asientos['1'] = 1
+            p.x -= 75
+            self.asientos['1'] = m.pid
         elif self.asientos['2'] == 0:
-            self.asientos['2'] = 1
+            self.asientos['2'] = m.pid
         elif self.asientos['3'] == 0:
-            p.x = p.x + 75
-            self.asientos['3'] = 1
+            p.x += 75
+            self.asientos['3'] = m.pid
 
-    def levantarse(self):
-        if self.asientos['1'] == 1:
-            self.asientos['1'] = 0
-        elif self.asientos['2'] == 1:
-            self.asientos['2'] = 0
-        elif self.asientos['3'] == 1:
-            self.asientos['3'] = 0
+    def levantarse(self, m):
+        for i in self.asientos.iterkeys():
+            if self.asientos[i] == m.pid:
+                self.asientos[i] = 0
+
 
 if __name__ == '__main__':
     VisualApp().run()

@@ -4,7 +4,8 @@
         size: root.size
         FloatLayout:
             top: 0
-            size_hint: 1, 0.8
+            size: 500, 360
+            size_hint: 1, 0.9
             id: vis
             canvas:
                 Rectangle:
@@ -14,10 +15,10 @@
                 Line:
                     rectangle: self.x,self.y, self.width, self.height
         BoxLayout:
-            size_hint: 1, 0.2
+            size_hint: 1, 0.1
             orientation: 'horizontal'
-            padding: 20
-            spacing: 20
+            padding: 5
+            spacing: 5
             Button:
                 text: "Matar a todos"
                 on_press: app.matar_a_todos()

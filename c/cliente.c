@@ -40,9 +40,9 @@ int main(int argc, char *argv[]) {
 
     // Crea semilla para numeros random.
     srand(time(NULL));
-    num_personaje = (rand() % 4) + 1;
+    num_personaje = (rand() % 400);
     // Asigna las imágenes del pj sorteado.
-    if (num_personaje == 1)
+    if (num_personaje < 100)
     {
         strcpy(img_pj_frente_largo, "./Chars/char1_largo/char1_largo_frente.zip");
         strcpy(img_pj_izquierda_largo, "./Chars/char1_largo/char1_largo_izquierda.zip");
@@ -55,7 +55,7 @@ int main(int argc, char *argv[]) {
         strcpy(img_pj_sentado_frente, "./Chars/char1_largo/char1_sentado_frente.png");
         strcpy(img_pj_atendido, "./Chars/char1_largo/char1_atendiendose.png");
     }
-    else if (num_personaje == 2)
+    else if (num_personaje < 200)
     {
         strcpy(img_pj_frente_largo, "./Chars/char2_largo/char2_largo_frente.zip");
         strcpy(img_pj_izquierda_largo, "./Chars/char2_largo/char2_largo_izquierda.zip");
@@ -68,7 +68,7 @@ int main(int argc, char *argv[]) {
         strcpy(img_pj_sentado_frente, "./Chars/char2_largo/char2_sentado_frente.png");
         strcpy(img_pj_atendido, "./Chars/char2_largo/char2_atendiendose.png");
     }
-    else if (num_personaje == 3)
+    else if (num_personaje < 300)
     {
         strcpy(img_pj_frente_largo, "./Chars/char3_largo/char3_largo_frente.zip");
         strcpy(img_pj_izquierda_largo, "./Chars/char3_largo/char3_largo_izquierda.zip");
@@ -81,7 +81,7 @@ int main(int argc, char *argv[]) {
         strcpy(img_pj_sentado_frente, "./Chars/char3_largo/char3_sentado_frente.png");
         strcpy(img_pj_atendido, "./Chars/char3_largo/char3_atendiendose.png");
     }
-    else if (num_personaje == 4)
+    else if (num_personaje < 400)
     {
         strcpy(img_pj_frente_largo, "./Chars/char4_largo/char4_largo_frente.zip");
         strcpy(img_pj_izquierda_largo, "./Chars/char4_largo/char4_largo_izquierda.zip");
@@ -112,6 +112,12 @@ int main(int argc, char *argv[]) {
     mens.x = -340;
     mens.y = -50;
     enviar(&mens);
+    while (mens.x <= -305) {
+        if (mens.x % 2 == 0)
+            usleep(15000);
+        mens.x += 1;
+        enviar(&mens);
+    }
 
     // Intenta inscribirse en la cola de clientes (Sala de espera).
     stat_env = mq_send(cola_cliente, (const char *) &m_cliente, sizeof(mensaje), 0);
@@ -138,7 +144,7 @@ int main(int argc, char *argv[]) {
         if (!atendiendose) {
             memset(mens.imagen, '\0', sizeof(mens.imagen));
             strcpy(mens.imagen, img_pj_atras_largo);
-            while (mens.y <= 50){
+            while (mens.y <= 65){
                 if (mens.y % 2 == 0)
                 usleep(15000);
                 mens.y += 1;
@@ -148,14 +154,16 @@ int main(int argc, char *argv[]) {
             memset(mens.imagen, '\0', sizeof(mens.imagen));
             strcpy(mens.imagen, img_pj_sentado_frente);
             mens.x = -205;
-            mens.y = 90;
+            mens.y = 105;
+            mens.pid = getpid();
             mens.estado = 2;
             enviar(&mens);
 
             while(!atendiendose)
                 ;   // No hace nada.
 
-            mens.y = 50;
+            mens.y = 65;
+            mens.pid = getpid();
             mens.estado = 3;
             enviar(&mens);
         }
@@ -182,7 +190,7 @@ int main(int argc, char *argv[]) {
         }
         memset(mens.imagen, '\0', sizeof(mens.imagen));
         strcpy(mens.imagen, img_pj_atras_largo);
-        while (mens.y <= 80) {
+        while (mens.y <= 95) {
             if (mens.y % 2 == 0)
                 usleep(15000);
             mens.y += 1;
@@ -198,8 +206,8 @@ int main(int argc, char *argv[]) {
             memset(mens.imagen, '\0', sizeof(mens.imagen));
             strcpy(mens.imagen, img_pj_atendido);
             mens.pid = getpid();
-            mens.x = 270;
-            mens.y = 128;
+            mens.x = 272;
+            mens.y = 140;
             enviar(&mens);
         }
         while(atendiendose)
@@ -209,7 +217,7 @@ int main(int argc, char *argv[]) {
         memset(mens.imagen, '\0', sizeof(mens.imagen));
         strcpy(mens.imagen, img_pj_frente_corto);
         mens.x = 220;
-        mens.y = 80;
+        mens.y = 95;
         while (mens.y > -50) {
             if (mens.y % 2 == 0)
                 usleep(15000);
